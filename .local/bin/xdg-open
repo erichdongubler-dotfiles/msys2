@@ -1,0 +1,19 @@
+#! /bin/bash
+if [[ "$#" != 1 ]]; then
+	echo "got $# args, expected 1" &>2
+	exit
+fi
+
+file="$1"
+
+if [[ -z "$file" ]]; then
+	echo "file not specified" >&2
+	exit
+fi
+
+if [[ ! -e "$file" ]]; then
+	echo "file $file does not exist" >&2
+	exit
+fi
+
+start "$(cygpath -w $file)"

@@ -1,0 +1,3 @@
+#! /bin/sh
+
+"/c/ProgramData/chocolatey/bin/rg.exe" --path-separator="//" "$@"

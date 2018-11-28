@@ -2,8 +2,8 @@
 
 //! ```cargo
 //! [dependencies]
-//! structopt = ""
-//! winrt-notification = "0.2.2"
+//! structopt = "=0.2.13"
+//! winrt-notification = "=0.2.2"
 //! ```
 #![deny(warnings)]
 

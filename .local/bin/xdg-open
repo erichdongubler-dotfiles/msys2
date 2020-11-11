@@ -16,4 +16,4 @@ if [[ ! -e "$file" ]]; then
 	exit
 fi
 
-start "$(cygpath -w $file)"
+start "" "$(cygpath -w "$file")"

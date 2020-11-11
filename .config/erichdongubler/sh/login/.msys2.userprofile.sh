@@ -1,1 +1,1 @@
-export USERPROFILE="$(cygpath "$USERPROFILE")"
+export WINDOWS_USERPROFILE="$(cygpath "$USERPROFILE")"

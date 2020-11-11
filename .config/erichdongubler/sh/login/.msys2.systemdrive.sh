@@ -1,0 +1,1 @@
+export WINDOWS_SYSTEMDRIVE="$(cygpath "$SYSTEMDRIVE")"

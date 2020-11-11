@@ -1,14 +1,8 @@
 #! /bin/sh
 
-set_windows_env_var () {
-	echo "Setting env var \"$1\" to \"$2\""
-	setx "$1" "$2"
-}
-
-set_windows_env_var VIMINIT 'let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
-set_windows_env_var XDG_CACHE_HOME '%userprofile%\.cache'
-set_windows_env_var XDG_CONFIG_HOME '%userprofile%\.config'
-set_windows_env_var WAKATIME_HOME '%XDG_CACHE_HOME%\wakatime'
+# Remember: the `windows` package has some of its own init we need, but don't
+# do here.
+vcsh clone git@github.com:erichdongubler-dotfiles/windows
 
 msys2_scripts_dir="$HOME/.config/erichdongubler/sh/library/platforms/windows/msys2"
 "$msys2_scripts_dir"/import-stored-registry-items

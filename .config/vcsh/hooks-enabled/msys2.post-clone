@@ -9,3 +9,7 @@ set_windows_env_var VIMINIT 'let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source 
 set_windows_env_var XDG_CACHE_HOME '%userprofile%\.cache'
 set_windows_env_var XDG_CONFIG_HOME '%userprofile%\.config'
 set_windows_env_var WAKATIME_HOME '%XDG_CACHE_HOME%\wakatime'
+
+msys2_scripts_dir="$HOME/.config/erichdongubler/sh/library/platforms/windows/msys2"
+"$msys2_scripts_dir"/import-stored-registry-items
+"$msys2_scripts_dir"/fix-xdg-env-var-exports

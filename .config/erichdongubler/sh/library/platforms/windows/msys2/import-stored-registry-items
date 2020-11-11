@@ -1,0 +1,10 @@
+#! /bin/sh
+
+script_dir="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
+cd "$script_dir"
+
+registry_files="$(ls registry-items/*.reg)" || exit $?
+echo "$registry_files" | while read file; do
+	echo "Importing registry file $script_dir/$file..."
+	start "$script_dir/$file" || error_code=$?
+done

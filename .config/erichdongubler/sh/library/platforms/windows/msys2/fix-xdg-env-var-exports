@@ -1,0 +1,12 @@
+#! /bin/sh
+
+script_dir="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
+cd "$script_dir"
+
+echo "Patching in XDG environment variables for MSYS2..."
+# Flags used here are:
+# * `-d/`: Apply patch _from the root dir_ (SECURITY WARNING!)
+# * `-N`: skip hunk if it looks applied already
+# * `--no-backup-if-mismatch` halts generation of an `*.orig` file
+# * `-r -` halts the generation of a `*.rej` file
+patch -d/ --unified -p0 -N --no-backup-if-mismatch -r - < "$0.diff" || exit $?

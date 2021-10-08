@@ -1,25 +1,20 @@
-#! /usr/bin/env run-cargo-script
+#! cargo-eval.exe --
 
 //! ```cargo
+//! [package]
+//! edition = "2018"
+//!
 //! [dependencies]
-//! structopt = "=0.2.13"
-//! winrt-notification = "=0.2.2"
+//! anyhow = "1"
+//! structopt = "0.2.13"
+//! winrt-notification = "0.2.2"
 //! ```
 #![deny(warnings)]
 
-extern crate structopt;
-extern crate winrt_notification;
-
 use {
-    std::{
-        fmt::{
-            Debug,
-            Display,
-            Formatter,
-            Result as FmtResult,
-        },
-    },
+    anyhow::{anyhow, bail, Error as AnyhowError},
     structopt::StructOpt,
+    winrt_notification::{Duration, Sound, Toast},
 };
 
 #[derive(StructOpt)]
@@ -36,23 +31,7 @@ struct Cli {
     duration: Option<String>,
 }
 
-use winrt_notification::{Duration, Sound, Toast};
-
-pub struct DisplayAsDebug<T: Display>(pub T);
-
-impl<T: Display> Debug for DisplayAsDebug<T> {
-    fn fmt(&self, f: &mut Formatter) -> FmtResult {
-        write!(f, "{}", self.0)
-    }
-}
-
-impl From<&'static str> for DisplayAsDebug<&'static str> {
-    fn from(s: &'static str) -> Self {
-        DisplayAsDebug(s)
-    }
-}
-
-fn main() -> Result<(), DisplayAsDebug<&'static str>> {
+fn main() -> Result<(), AnyhowError> {
     let Cli {
         title,
         text1,
@@ -61,7 +40,9 @@ fn main() -> Result<(), DisplayAsDebug<&'static str>> {
         duration,
     } = Cli::from_args();
 
-    let mut toast = Toast::new(Toast::POWERSHELL_APP_ID);
+    let mut toast = Toast::new(
+        "{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\\WindowsPowerShell\\v1.0\\powershell.exe",
+    );
 
     if let Some(t) = title {
         toast = toast.title(&t);
@@ -80,7 +61,7 @@ fn main() -> Result<(), DisplayAsDebug<&'static str>> {
         toast = toast.sound(match s.as_ref() {
             "sms" => Some(Sound::SMS),
             "none" => None,
-            _ => Err("incorrect sound name")?,
+            _ => bail!("incorrect sound name"),
         });
     };
 
@@ -89,11 +70,13 @@ fn main() -> Result<(), DisplayAsDebug<&'static str>> {
         let d = match d.as_ref() {
             "short" => Duration::Short,
             "long" => Duration::Long,
-            _ => Err("incorrect duration name")?,
+            _ => bail!("incorrect duration name"),
         };
         toast = toast.duration(d);
     }
 
-    toast.show().expect("unable to toast");
+    toast
+        .show()
+        .map_err(|e| anyhow!("unable to toast: {:?}", e))?;
     Ok(())
 }

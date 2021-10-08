@@ -1,3 +1,3 @@
 #! /bin/sh
 
-"/c/ProgramData/chocolatey/bin/fd.exe" --path-separator '//' "$@"
+"/c/ProgramData/chocolatey/bin/fd.exe" --path-separator '//' "$@" | ifne cygpath --ignore -f-

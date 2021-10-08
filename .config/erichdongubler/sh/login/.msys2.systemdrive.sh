@@ -1,1 +1,1 @@
-export WINDOWS_SYSTEMDRIVE="$(cygpath "$SYSTEMDRIVE")"
+export WINDOWS_SYSTEMDRIVE="$(cygpath -a "$SYSTEMDRIVE")"
